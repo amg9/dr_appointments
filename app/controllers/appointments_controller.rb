@@ -6,12 +6,13 @@ class AppointmentsController < ApplicationController
   end
 
   def new
+    @users = User.all - @doctor.users
     @appointment = @doctor.appointments.new
   end
 
   def create
     @appointment = @doctor.appointments.new(appointment_params)
-    if @appoinment.save
+    if @appointment.save
       redirect_to doctor_appointments_path(@doctor)
     else
       render :new
@@ -30,6 +31,6 @@ class AppointmentsController < ApplicationController
     end
 
     def appointment_params
-      params.require(:appoinment).permit(:kind, :date, :user_id)
+      params.require(:appointment).permit(:kind, :date, :user_id)
     end
 end
